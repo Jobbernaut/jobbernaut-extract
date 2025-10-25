@@ -8,7 +8,8 @@ if (chrome.action && chrome.action.onClicked) {
           type: "basic",
           iconUrl: "icons/icon48.png",
           title: "Jobbernaut Extract",
-          message: "Please navigate to a LinkedIn or Indeed job posting",
+          message:
+            "Please navigate to a LinkedIn, Indeed, or YCombinator job posting",
         });
         return;
       }
@@ -25,12 +26,22 @@ if (chrome.action && chrome.action.onClicked) {
         return;
       }
 
+      // Check for YCombinator job page
+      if (
+        tab.url.includes("ycombinator.com/companies") &&
+        tab.url.includes("/jobs/")
+      ) {
+        chrome.tabs.sendMessage(tab.id, { action: "extractJob" });
+        return;
+      }
+
       // Not on a supported job site
       chrome.notifications.create({
         type: "basic",
         iconUrl: "icons/icon48.png",
         title: "Jobbernaut Extract",
-        message: "Please navigate to a LinkedIn or Indeed job posting",
+        message:
+          "Please navigate to a LinkedIn, Indeed, or YCombinator job posting",
       });
     } catch (error) {
       console.error("Error:", error);

@@ -1,11 +1,11 @@
 # Jobbernaut Extract
 
-A Chrome extension that extracts job application data from LinkedIn and Indeed job postings and copies it to your clipboard in a customizable YAML format.
+A Chrome extension that extracts job application data from LinkedIn, Indeed, and YCombinator job postings and copies it to your clipboard in a customizable YAML format.
 
 ## 🚀 Quick Start
 
 1. **Install the extension** (see [Installation](#installation))
-2. **Navigate to a LinkedIn or Indeed job posting**
+2. **Navigate to a LinkedIn, Indeed, or YCombinator job posting**
 3. **Click the extension icon** or press **Ctrl+Shift+E**
 4. **Paste** the extracted data into your `applications.yaml` file
 
@@ -146,9 +146,10 @@ jobbernaut-extract/
 ├── manifest.json           # Extension configuration
 ├── background.js           # Background service worker
 ├── content/
-│   ├── shared-utils.js     # Shared utilities for all scrapers
-│   ├── linkedin-scraper.js # LinkedIn-specific scraper
-│   └── indeed-scraper.js   # Indeed-specific scraper
+│   ├── shared-utils.js        # Shared utilities for all scrapers
+│   ├── linkedin-scraper.js    # LinkedIn-specific scraper
+│   ├── indeed-scraper.js      # Indeed-specific scraper
+│   └── ycombinator-scraper.js # YCombinator-specific scraper
 ├── options/
 │   ├── options.html        # Settings page
 │   ├── options.css         # Settings page styles
@@ -185,6 +186,7 @@ All common functionality is centralized in a shared utilities module:
 Each job board has a lightweight scraper that focuses only on extracting data:
 - **`linkedin-scraper.js`** (~100 lines) - LinkedIn-specific CSS selectors and logic
 - **`indeed-scraper.js`** (~100 lines) - Indeed-specific CSS selectors and logic
+- **`ycombinator-scraper.js`** (~100 lines) - YCombinator-specific CSS selectors and logic
 
 ### Benefits of This Architecture
 
@@ -270,6 +272,7 @@ The extension is designed to be easily extended to support additional job boards
 **Supported Job Boards:**
 - ✅ LinkedIn (built-in)
 - ✅ Indeed (built-in)
+- ✅ YCombinator (built-in)
 - 📝 Glassdoor (see guide to add)
 - 📝 Monster (see guide to add)
 - 📝 Any other job board (see guide to add)

@@ -6,7 +6,8 @@
   "permissions": ["activeTab", "storage", "notifications", "contextMenus"],
   "host_permissions": [
     "https://www.linkedin.com/*",
-    "https://www.indeed.com/*"
+    "https://www.indeed.com/*",
+    "https://www.ycombinator.com/*"
   ],
   "action": {
     "default_icon": {
@@ -24,6 +25,11 @@
     {
       "matches": ["https://www.indeed.com/*"],
       "js": ["content/shared-utils.js", "content/indeed-scraper.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.ycombinator.com/companies/*/jobs/*"],
+      "js": ["content/shared-utils.js", "content/ycombinator-scraper.js"],
       "run_at": "document_idle"
     }
   ],
