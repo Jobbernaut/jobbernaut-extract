@@ -1,84 +1,51 @@
-// Simple background script to forward icon clicks to content script
-if (chrome.action && chrome.action.onClicked) {
-  chrome.action.onClicked.addListener(async (tab) => {
-    try {
-      // Check if we're on a supported job site
-      if (!tab.url) {
-        chrome.notifications.create({
-          type: "basic",
-          iconUrl: "icons/icon48.png",
-          title: "Jobbernaut Extract",
-          message:
-            "Please navigate to a LinkedIn, Indeed, or YCombinator job posting",
+/**
+ * Jobbernaut Extract - Background Service Worker
+ * Handles clipboard operations and message passing between content scripts and extension
+ */
+
+(function () {
+  "use strict";
+
+  console.log("[Jobbernaut] Background service worker initialized");
+
+  /**
+   * Handles messages from content scripts
+   * @param {Object} request - Message request object
+   * @param {Object} sender - Message sender information
+   * @param {Function} sendResponse - Callback to send response
+   * @returns {boolean} True if response will be sent asynchronously
+   */
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "copyToClipboard") {
+      handleCopyToClipboard(request.text)
+        .then(() => {
+          sendResponse({ success: true });
+        })
+        .catch((error) => {
+          console.error("[Jobbernaut] Clipboard copy failed:", error);
+          sendResponse({ success: false, error: error.message });
         });
-        return;
-      }
-
-      // Check for LinkedIn jobs page
-      if (tab.url.includes("linkedin.com/jobs")) {
-        chrome.tabs.sendMessage(tab.id, { action: "extractJob" });
-        return;
-      }
-
-      // Check for Indeed job page
-      if (tab.url.includes("indeed.com")) {
-        chrome.tabs.sendMessage(tab.id, { action: "extractJob" });
-        return;
-      }
-
-      // Check for YCombinator job page
-      if (
-        tab.url.includes("ycombinator.com/companies") &&
-        tab.url.includes("/jobs/")
-      ) {
-        chrome.tabs.sendMessage(tab.id, { action: "extractJob" });
-        return;
-      }
-
-      // Check for Wellfound job page
-      if (tab.url.includes("wellfound.com/jobs")) {
-        chrome.tabs.sendMessage(tab.id, { action: "extractJob" });
-        return;
-      }
-
-      // Check for Glassdoor job page
-      if (tab.url.includes("glassdoor.com/Job")) {
-        chrome.tabs.sendMessage(tab.id, { action: "extractJob" });
-        return;
-      }
-
-      // Check for Monster job page
-      if (tab.url.includes("monster.com")) {
-        chrome.tabs.sendMessage(tab.id, { action: "extractJob" });
-        return;
-      }
-
-      // Not on a supported job site
-      chrome.notifications.create({
-        type: "basic",
-        iconUrl: "icons/icon48.png",
-        title: "Jobbernaut Extract",
-        message:
-          "Please navigate to a LinkedIn, Indeed, YCombinator, Wellfound, Glassdoor, or Monster job posting",
-      });
-    } catch (error) {
-      console.error("Error:", error);
+      return true; // Indicates async response
     }
   });
-}
 
-// Create context menu for settings
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id: "openSettings",
-    title: "Settings",
-    contexts: ["action"],
-  });
-});
+  /**
+   * Copies text to clipboard using the Clipboard API
+   * @param {string} text - Text to copy to clipboard
+   * @returns {Promise<void>}
+   */
+  async function handleCopyToClipboard(text) {
+    if (!text || typeof text !== "string") {
+      throw new Error("Invalid text provided for clipboard operation");
+    }
 
-// Handle context menu clicks
-chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === "openSettings") {
-    chrome.runtime.openOptionsPage();
+    try {
+      // Use the modern Clipboard API
+      await navigator.clipboard.writeText(text);
+      console.log("[Jobbernaut] Successfully copied to clipboard");
+    } catch (error) {
+      console.error("[Jobbernaut] Clipboard API failed:", error);
+      throw new Error(`Failed to copy to clipboard: ${error.message}`);
+    }
   }
-});
+})();

@@ -1,96 +1,97 @@
-// Monster-specific job scraper
-// Uses shared utilities from shared-utils.js
+/**
+ * Jobbernaut Extract - Monster Scraper
+ * Extracts job data from Monster job postings
+ *
+ * Supports Monster's job board at monster.com
+ */
 
-// Monster job scraper
-function scrapeMonsterJob() {
-  try {
-    let jobTitle = "";
-    let companyName = "";
-    let location = "";
-    let jobDescription = "";
+(function () {
+  "use strict";
 
-    // Find the job view wrapper to scope our selectors to the detail panel only
-    // This prevents selecting elements from the search results list
-    const jobViewWrapper = document.querySelector(
-      '[data-testid="svx-job-view-wrapper"]'
+  console.log("[Jobbernaut] Monster scraper initializing...");
+
+  // Check if shared utilities are available
+  if (!window.JobbernautUtils) {
+    console.error(
+      "[Jobbernaut] JobbernautUtils not loaded! Make sure shared-utils.js is loaded first."
     );
+    return;
+  }
 
-    if (!jobViewWrapper) {
-      console.error("Job view wrapper not found");
+  const { setupEventListeners } = window.JobbernautUtils;
+
+  /**
+   * Scrapes job data from Monster job posting page
+   * @returns {Object} Result object with success flag and data/error
+   */
+  function scrapeMonsterJob() {
+    try {
+      let jobTitle = "";
+      let companyName = "";
+      let location = "";
+      let jobDescription = "";
+      const postingLink = window.location.href;
+
+      // Job Title - Try multiple selectors for different Monster layouts
+      jobTitle =
+        document.querySelector("h1")?.textContent?.trim() ||
+        document
+          .querySelector('[data-test-id="svx-job-title"]')
+          ?.textContent?.trim() ||
+        document.querySelector('[class*="JobTitle"]')?.textContent?.trim() ||
+        document.querySelector('[class*="job-title"]')?.textContent?.trim() ||
+        "";
+
+      // Company Name - Try multiple selectors
+      companyName =
+        document
+          .querySelector('[data-test-id="svx-company-name"]')
+          ?.textContent?.trim() ||
+        document.querySelector('[class*="company"]')?.textContent?.trim() ||
+        document.querySelector('[class*="CompanyName"]')?.textContent?.trim() ||
+        "";
+
+      // Location - Try multiple selectors
+      location =
+        document
+          .querySelector('[data-test-id="svx-job-location"]')
+          ?.textContent?.trim() ||
+        document.querySelector('[class*="location"]')?.textContent?.trim() ||
+        document.querySelector('[class*="Location"]')?.textContent?.trim() ||
+        "";
+
+      // Job Description - Try multiple selectors
+      const descriptionElement =
+        document.querySelector('[data-test-id="svx-job-description"]') ||
+        document.querySelector('[class*="JobDescription"]') ||
+        document.querySelector('[class*="job-description"]') ||
+        document.querySelector('[class*="description"]') ||
+        document.querySelector("main") ||
+        document.querySelector("article");
+
+      if (descriptionElement) {
+        jobDescription = descriptionElement.innerText?.trim() || "";
+      }
+
+      return {
+        success: true,
+        data: {
+          jobTitle,
+          companyName,
+          location,
+          jobDescription,
+          postingLink,
+        },
+      };
+    } catch (error) {
+      console.error("[Jobbernaut] Monster scraping error:", error);
       return {
         success: false,
-        error:
-          "Job detail panel not found. Please make sure a job is selected.",
+        error: error.message,
       };
     }
-
-    // Job Title - Search within the wrapper only
-    jobTitle =
-      jobViewWrapper
-        .querySelector('[data-testid="jobTitle"]')
-        ?.textContent?.trim() ||
-      jobViewWrapper.querySelector("h1")?.textContent?.trim() ||
-      "";
-
-    // Company Name - Search within the wrapper only
-    companyName =
-      jobViewWrapper
-        .querySelector('[data-testid="company"]')
-        ?.textContent?.trim() ||
-      jobViewWrapper
-        .querySelector('[data-testid="companyName"]')
-        ?.textContent?.trim() ||
-      "";
-
-    // Location - Search within the wrapper only
-    location =
-      jobViewWrapper
-        .querySelector('[data-testid="jobDetailLocation"]')
-        ?.textContent?.trim() ||
-      jobViewWrapper
-        .querySelector('[data-testid="location"]')
-        ?.textContent?.trim() ||
-      "";
-
-    // Job Description - Search within the wrapper only
-    const descriptionElement =
-      jobViewWrapper.querySelector(
-        '[data-testid="svx-description-container-inner"]'
-      ) ||
-      jobViewWrapper.querySelector('[data-testid="jobDescription"]') ||
-      jobViewWrapper.querySelector('[class*="description"]');
-
-    if (descriptionElement) {
-      jobDescription = descriptionElement.innerText?.trim() || "";
-    }
-
-    // Use current URL as posting link
-    const postingLink = window.location.href;
-
-    return {
-      success: true,
-      data: {
-        jobTitle,
-        companyName,
-        location,
-        jobDescription,
-        postingLink,
-      },
-    };
-  } catch (error) {
-    console.error("Scraping error:", error);
-    return {
-      success: false,
-      error: error.message,
-    };
   }
-}
 
-// Initialize the scraper with shared utilities
-if (window.JobbernautUtils) {
-  window.JobbernautUtils.setupEventListeners(scrapeMonsterJob, "Monster");
-} else {
-  console.error(
-    "JobbernautUtils not loaded! Make sure shared-utils.js is loaded first."
-  );
-}
+  // Initialize the scraper with shared utilities
+  setupEventListeners(scrapeMonsterJob, "Monster");
+})();
