@@ -18,12 +18,12 @@
   "content_scripts": [
     {
       "matches": ["https://www.linkedin.com/jobs/*"],
-      "js": ["content/linkedin-scraper.js"],
+      "js": ["content/shared-utils.js", "content/linkedin-scraper.js"],
       "run_at": "document_idle"
     },
     {
       "matches": ["https://www.indeed.com/*"],
-      "js": ["content/indeed-scraper.js"],
+      "js": ["content/shared-utils.js", "content/indeed-scraper.js"],
       "run_at": "document_idle"
     }
   ],

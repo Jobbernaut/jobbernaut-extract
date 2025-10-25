@@ -146,7 +146,9 @@ jobbernaut-extract/
 ├── manifest.json           # Extension configuration
 ├── background.js           # Background service worker
 ├── content/
-│   └── linkedin-scraper.js # LinkedIn page scraper
+│   ├── shared-utils.js     # Shared utilities for all scrapers
+│   ├── linkedin-scraper.js # LinkedIn-specific scraper
+│   └── indeed-scraper.js   # Indeed-specific scraper
 ├── options/
 │   ├── options.html        # Settings page
 │   ├── options.css         # Settings page styles
@@ -155,8 +157,62 @@ jobbernaut-extract/
 │   ├── icon16.png          # 16x16 icon
 │   ├── icon48.png          # 48x48 icon
 │   └── icon128.png         # 128x128 icon
+├── docs/
+│   ├── architecture.md     # Technical architecture guide
+│   └── template-customization.md # Template customization guide
+├── EXTENDING.md            # Guide for adding new job boards
 └── README.md               # This file
 ```
+
+## Code Architecture
+
+The extension uses a **modular architecture** with shared utilities to minimize code duplication:
+
+### Shared Utilities (`content/shared-utils.js`)
+
+All common functionality is centralized in a shared utilities module:
+- **`generateJobId()`** - Generates unique 10-character alphanumeric IDs
+- **`formatJobDescription()`** - Formats job descriptions with YAML pipe syntax
+- **`escapeYAML()`** - Escapes special YAML characters
+- **`getDefaultTemplate()`** - Returns the default YAML template
+- **`formatData()`** - Replaces template variables with actual data
+- **`showNotification()`** - Displays on-page success notifications
+- **`extractAndCopyJobData()`** - Generic extraction logic that works with any scraper
+- **`setupEventListeners()`** - Sets up message listeners and keyboard shortcuts
+
+### Site-Specific Scrapers
+
+Each job board has a lightweight scraper that focuses only on extracting data:
+- **`linkedin-scraper.js`** (~100 lines) - LinkedIn-specific CSS selectors and logic
+- **`indeed-scraper.js`** (~100 lines) - Indeed-specific CSS selectors and logic
+
+### Benefits of This Architecture
+
+✅ **DRY (Don't Repeat Yourself)** - No code duplication across scrapers
+✅ **Easy Maintenance** - Bug fixes in one place benefit all scrapers
+✅ **Consistency** - Same behavior across all job boards
+✅ **Extensibility** - Adding new job boards requires minimal code (~100 lines)
+✅ **Testability** - Shared utilities can be tested independently
+
+### Data Flow
+
+```
+Extension Icon Click / Keyboard Shortcut
+    ↓
+Background Script (routes to appropriate scraper)
+    ↓
+Site-Specific Scraper (extracts job data from page)
+    ↓
+Shared Utilities (formats data using template)
+    ↓
+Clipboard (copies YAML output)
+    ↓
+Notification (confirms success)
+```
+
+For detailed architecture information, see [docs/architecture.md](docs/architecture.md).
+
+## File Structure
 
 ## Permissions
 
