@@ -21,6 +21,34 @@ That's it! The job data is now in your clipboard, ready to track.
 - **Visual Feedback** - Chrome notifications confirm successful extraction
 - **Keyboard Shortcut** - Fast extraction with Ctrl+Shift+E (Cmd+Shift+E on Mac)
 
+## ⚠️ Usage & Disclaimer
+
+**This extension is provided for personal productivity use only.**
+
+### Important Notes
+
+- **Respect Terms of Service**: Users are responsible for complying with each job site's Terms of Service when using this extension
+- **No Warranty**: This software is provided "as is" under the MIT License, without warranty of any kind, express or implied
+- **Site Changes**: Job sites may update their HTML structure at any time, which may temporarily break scrapers until updated
+- **Personal Use**: This tool is designed for individual job seekers to organize their applications, not for bulk data collection or commercial scraping
+- **Rate Limits**: Use responsibly and respect site rate limits and automated access policies
+- **Your Responsibility**: By using this extension, you accept full responsibility for your usage and compliance with applicable terms and laws
+
+### What This Extension Does
+
+✅ Extracts publicly visible job posting data from pages you're already viewing  
+✅ Formats the data for your personal job tracking workflow  
+✅ Copies the formatted data to your clipboard for manual pasting  
+
+### What This Extension Does NOT Do
+
+❌ Scrape data in bulk or at scale  
+❌ Bypass authentication or paywalls  
+❌ Store or transmit your data to external servers  
+❌ Violate site terms of service (when used as intended for personal job tracking)  
+
+**If you have concerns about using this tool, please review the Terms of Service for each job site you use it with.**
+
 ## Installation
 
 1. Download or clone this repository
