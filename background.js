@@ -35,13 +35,19 @@ if (chrome.action && chrome.action.onClicked) {
         return;
       }
 
+      // Check for Wellfound job page
+      if (tab.url.includes("wellfound.com/jobs")) {
+        chrome.tabs.sendMessage(tab.id, { action: "extractJob" });
+        return;
+      }
+
       // Not on a supported job site
       chrome.notifications.create({
         type: "basic",
         iconUrl: "icons/icon48.png",
         title: "Jobbernaut Extract",
         message:
-          "Please navigate to a LinkedIn, Indeed, or YCombinator job posting",
+          "Please navigate to a LinkedIn, Indeed, YCombinator, or Wellfound job posting",
       });
     } catch (error) {
       console.error("Error:", error);

@@ -7,7 +7,8 @@
   "host_permissions": [
     "https://www.linkedin.com/*",
     "https://www.indeed.com/*",
-    "https://www.ycombinator.com/*"
+    "https://www.ycombinator.com/*",
+    "https://wellfound.com/*"
   ],
   "action": {
     "default_icon": {
@@ -30,6 +31,11 @@
     {
       "matches": ["https://www.ycombinator.com/companies/*/jobs/*"],
       "js": ["content/shared-utils.js", "content/ycombinator-scraper.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://wellfound.com/jobs/*"],
+      "js": ["content/shared-utils.js", "content/wellfound-scraper.js"],
       "run_at": "document_idle"
     }
   ],
