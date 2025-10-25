@@ -8,7 +8,8 @@
     "https://www.linkedin.com/*",
     "https://www.indeed.com/*",
     "https://www.ycombinator.com/*",
-    "https://wellfound.com/*"
+    "https://wellfound.com/*",
+    "https://www.glassdoor.com/*"
   ],
   "action": {
     "default_icon": {
@@ -36,6 +37,11 @@
     {
       "matches": ["https://wellfound.com/jobs/*"],
       "js": ["content/shared-utils.js", "content/wellfound-scraper.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.glassdoor.com/Job/*"],
+      "js": ["content/shared-utils.js", "content/glassdoor-scraper.js"],
       "run_at": "document_idle"
     }
   ],

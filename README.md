@@ -1,11 +1,11 @@
 # Jobbernaut Extract
 
-A Chrome extension that extracts job application data from LinkedIn, Indeed, YCombinator, and Wellfound job postings and copies it to your clipboard in a customizable YAML format.
+A Chrome extension that extracts job application data from LinkedIn, Indeed, YCombinator, Wellfound, and Glassdoor job postings and copies it to your clipboard in a customizable YAML format.
 
 ## 🚀 Quick Start
 
 1. **Install the extension** (see [Installation](#installation))
-2. **Navigate to a LinkedIn, Indeed, YCombinator, or Wellfound job posting**
+2. **Navigate to a LinkedIn, Indeed, YCombinator, Wellfound, or Glassdoor job posting**
 3. **Click the extension icon** or press **Ctrl+Shift+E**
 4. **Paste** the extracted data into your `applications.yaml` file
 
@@ -150,7 +150,8 @@ jobbernaut-extract/
 │   ├── linkedin-scraper.js    # LinkedIn-specific scraper
 │   ├── indeed-scraper.js      # Indeed-specific scraper
 │   ├── ycombinator-scraper.js # YCombinator-specific scraper
-│   └── wellfound-scraper.js   # Wellfound-specific scraper
+│   ├── wellfound-scraper.js   # Wellfound-specific scraper
+│   └── glassdoor-scraper.js   # Glassdoor-specific scraper
 ├── options/
 │   ├── options.html        # Settings page
 │   ├── options.css         # Settings page styles
@@ -276,7 +277,7 @@ The extension is designed to be easily extended to support additional job boards
 - ✅ Indeed (built-in)
 - ✅ YCombinator (built-in)
 - ✅ Wellfound (built-in)
-- 📝 Glassdoor (see guide to add)
+- ✅ Glassdoor (built-in)
 - 📝 Monster (see guide to add)
 - 📝 Any other job board (see guide to add)
 
