@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jobbernaut Extract - Settings</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Jobbernaut Extract Settings</h1>
+        <p class="subtitle">Customize your job data export format</p>
+      </header>
+
+      <main>
+        <section class="info-section">
+          <h2>Available Fields</h2>
+          <p class="description">
+            Use these placeholders in your template. They will be replaced with
+            actual job data when you extract:
+          </p>
+          <div class="fields-grid">
+            <div class="field-item">
+              <code>{job_id}</code>
+              <span>Auto-generated unique ID</span>
+            </div>
+            <div class="field-item">
+              <code>{job_title}</code>
+              <span>Job title from posting</span>
+            </div>
+            <div class="field-item">
+              <code>{company_name}</code>
+              <span>Company name</span>
+            </div>
+            <div class="field-item">
+              <code>{location}</code>
+              <span>Job location</span>
+            </div>
+            <div class="field-item">
+              <code>{status}</code>
+              <span>Always "pending"</span>
+            </div>
+            <div class="field-item">
+              <code>{posting_link}</code>
+              <span>URL of job posting</span>
+            </div>
+            <div class="field-item">
+              <code>{job_description}</code>
+              <span>Full job description (formatted with pipe syntax)</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="template-section">
+          <h2>Output Template</h2>
+          <p class="description">
+            Customize how job data is formatted when copied to clipboard.
+          </p>
+
+          <div class="template-editor">
+            <label for="templateInput">Template:</label>
+            <textarea
+              id="templateInput"
+              rows="12"
+              placeholder="Enter your custom template..."
+            ></textarea>
+          </div>
+
+          <div class="button-group">
+            <button id="saveBtn" class="primary-btn">Save Template</button>
+            <button id="resetBtn" class="secondary-btn">
+              Reset to Default
+            </button>
+          </div>
+        </section>
+
+        <section class="preview-section">
+          <h2>Preview</h2>
+          <p class="description">
+            This is how your output will look (with sample data):
+          </p>
+          <pre id="previewOutput" class="preview-box"></pre>
+        </section>
+      </main>
+
+      <div id="notification" class="notification"></div>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
