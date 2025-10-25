@@ -1,15 +1,25 @@
-# Jobbernaut Extract - Chrome Extension
+# Jobbernaut Extract
 
 A Chrome extension that extracts job application data from LinkedIn job postings and copies it to your clipboard in a customizable YAML format.
 
-## Features
+## 🚀 Quick Start
 
-- **One-Click Extraction**: Click the extension icon while viewing a LinkedIn job posting to extract job data
-- **Customizable Template**: Configure your own YAML output format in the settings
-- **Auto-Generated Job IDs**: Unique 10-character alphanumeric job IDs are automatically generated
-- **YAML Formatting**: Job descriptions are properly formatted with pipe syntax for multi-line content
-- **Clipboard Copy**: Extracted data is automatically copied to your clipboard
-- **Visual Feedback**: Chrome notifications confirm successful extraction
+1. **Install the extension** (see [Installation](#installation))
+2. **Navigate to a LinkedIn job posting**
+3. **Click the extension icon** or press **Ctrl+Shift+E**
+4. **Paste** the extracted data into your `applications.yaml` file
+
+That's it! The job data is now in your clipboard, ready to track.
+
+## ✨ Features
+
+- **One-Click Extraction** - Click the extension icon or use keyboard shortcut (Ctrl+Shift+E)
+- **Customizable Templates** - Configure your own YAML output format
+- **Auto-Generated Job IDs** - Unique 10-character alphanumeric IDs
+- **Complete Job Descriptions** - Full job description text with proper YAML formatting
+- **Clipboard Copy** - Automatically copies formatted data to clipboard
+- **Visual Feedback** - Chrome notifications confirm successful extraction
+- **Keyboard Shortcut** - Fast extraction with Ctrl+Shift+E (Cmd+Shift+E on Mac)
 
 ## Installation
 
@@ -177,10 +187,132 @@ The extension requires the following permissions:
 - Make sure you've granted clipboard permissions to the extension
 - Try clicking the extension icon again
 
-## Support
+## 📚 Documentation
 
-For issues, questions, or feature requests, please visit the GitHub repository.
+Comprehensive documentation is available in the `docs/` directory:
 
-## License
+- **[Architecture Guide](docs/architecture.md)** - Detailed technical architecture and component overview
+- **[Extending Guide](EXTENDING.md)** - How to add support for other job boards (Indeed, Glassdoor, etc.)
+- **[Template Customization](docs/template-customization.md)** - Complete guide to customizing YAML output templates
 
-This project is open source and available under the MIT License.
+### Quick Links
+
+- [How to add a new job board](EXTENDING.md#step-by-step-guide)
+- [Template examples](docs/template-customization.md#examples)
+- [Architecture overview](docs/architecture.md#component-architecture)
+- [Security considerations](docs/architecture.md#security-considerations)
+
+## 🔧 Extending to Other Job Boards
+
+The extension is designed to be easily extended to support additional job boards beyond LinkedIn. See the [EXTENDING.md](EXTENDING.md) guide for:
+
+- Step-by-step instructions for adding new job boards
+- How to find the right CSS selectors
+- Example scraper implementations
+- Testing and debugging tips
+
+**Supported Job Boards:**
+- ✅ LinkedIn (built-in)
+- 📝 Indeed (see guide to add)
+- 📝 Glassdoor (see guide to add)
+- 📝 Monster (see guide to add)
+- 📝 Any other job board (see guide to add)
+
+## 🎨 Customizing Templates
+
+The extension allows you to fully customize the YAML output format. See the [Template Customization Guide](docs/template-customization.md) for:
+
+- Available template variables
+- Example templates for different workflows
+- Best practices for YAML formatting
+- Troubleshooting common issues
+
+**Example Custom Template:**
+```yaml
+- job_info:
+    id: {job_id}
+    title: {job_title}
+    company: {company_name}
+  application:
+    status: {status}
+    applied_date: ""
+  links:
+    posting: {posting_link}
+  description: {job_description}
+```
+
+## 🏗️ Architecture
+
+The extension uses a modular architecture:
+
+```
+Extension Icon Click
+    ↓
+Background Script (routes to appropriate scraper)
+    ↓
+Content Script (extracts job data from page)
+    ↓
+Template Engine (formats data)
+    ↓
+Clipboard (copies YAML output)
+```
+
+For detailed architecture information, see [docs/architecture.md](docs/architecture.md).
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. **Add support for new job boards** - Follow the [EXTENDING.md](EXTENDING.md) guide
+2. **Improve existing scrapers** - LinkedIn's HTML changes frequently
+3. **Enhance documentation** - Help others understand and use the extension
+4. **Report bugs** - Open an issue with details about the problem
+5. **Suggest features** - Share ideas for improvements
+
+### Development Setup
+
+1. Clone the repository
+2. Make your changes
+3. Test in Chrome:
+   - Go to `chrome://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked"
+   - Select the extension directory
+4. Submit a pull request
+
+## 📝 Changelog
+
+### Version 1.0.0
+- Initial release
+- LinkedIn job extraction
+- Customizable YAML templates
+- Keyboard shortcut support
+- Settings page
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Extension doesn't work on LinkedIn**
+- Make sure you're on a job posting page (URL contains `/jobs/`)
+- Try refreshing the page
+- Check that the extension is enabled in `chrome://extensions/`
+
+**Job description is incomplete**
+- LinkedIn may have changed their HTML structure
+- Open an issue on GitHub with the job posting URL
+
+**Template not saving**
+- Ensure your template includes at least one variable
+- Check browser console (F12) for errors
+- Try resetting to default template
+
+For more troubleshooting help, see the [documentation](docs/).
+
+## 📄 License
+
+This project is open source. Feel free to use, modify, and distribute as needed.
+
+## 🙏 Acknowledgments
+
+Built for job seekers who want to efficiently track their applications in YAML format.
