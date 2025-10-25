@@ -47,13 +47,19 @@ if (chrome.action && chrome.action.onClicked) {
         return;
       }
 
+      // Check for Monster job page
+      if (tab.url.includes("monster.com")) {
+        chrome.tabs.sendMessage(tab.id, { action: "extractJob" });
+        return;
+      }
+
       // Not on a supported job site
       chrome.notifications.create({
         type: "basic",
         iconUrl: "icons/icon48.png",
         title: "Jobbernaut Extract",
         message:
-          "Please navigate to a LinkedIn, Indeed, YCombinator, Wellfound, or Glassdoor job posting",
+          "Please navigate to a LinkedIn, Indeed, YCombinator, Wellfound, Glassdoor, or Monster job posting",
       });
     } catch (error) {
       console.error("Error:", error);
