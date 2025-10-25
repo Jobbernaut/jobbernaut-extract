@@ -1,11 +1,11 @@
 # Jobbernaut Extract
 
-A Chrome extension that extracts job application data from LinkedIn job postings and copies it to your clipboard in a customizable YAML format.
+A Chrome extension that extracts job application data from LinkedIn and Indeed job postings and copies it to your clipboard in a customizable YAML format.
 
 ## 🚀 Quick Start
 
 1. **Install the extension** (see [Installation](#installation))
-2. **Navigate to a LinkedIn job posting**
+2. **Navigate to a LinkedIn or Indeed job posting**
 3. **Click the extension icon** or press **Ctrl+Shift+E**
 4. **Paste** the extracted data into your `applications.yaml` file
 
@@ -213,7 +213,7 @@ The extension is designed to be easily extended to support additional job boards
 
 **Supported Job Boards:**
 - ✅ LinkedIn (built-in)
-- 📝 Indeed (see guide to add)
+- ✅ Indeed (built-in)
 - 📝 Glassdoor (see guide to add)
 - 📝 Monster (see guide to add)
 - 📝 Any other job board (see guide to add)

@@ -4,7 +4,10 @@
   "version": "1.0.0",
   "description": "Extract job application data and copy to clipboard in YAML format",
   "permissions": ["activeTab", "storage", "notifications", "contextMenus"],
-  "host_permissions": ["https://www.linkedin.com/*"],
+  "host_permissions": [
+    "https://www.linkedin.com/*",
+    "https://www.indeed.com/*"
+  ],
   "action": {
     "default_icon": {
       "16": "icons/icon16.png",
@@ -16,6 +19,11 @@
     {
       "matches": ["https://www.linkedin.com/jobs/*"],
       "js": ["content/linkedin-scraper.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.indeed.com/*"],
+      "js": ["content/indeed-scraper.js"],
       "run_at": "document_idle"
     }
   ],
