@@ -125,32 +125,49 @@
           jobDescription = descriptionElement.innerText?.trim() || "";
         }
 
-        // Get posting link - extract job ID from the selected job card
-        const selectedJobCard =
-          document.querySelector(".jobs-search-results__list-item--active") ||
-          document.querySelector(
-            '.job-card-container--clickable[aria-current="true"]'
-          );
+        // Get posting link - try multiple methods in order of reliability
+        let jobId = null;
 
-        if (selectedJobCard) {
-          const jobId =
-            selectedJobCard.getAttribute("data-job-id") ||
-            selectedJobCard
-              .querySelector("[data-job-id]")
-              ?.getAttribute("data-job-id");
-          if (jobId) {
-            postingLink = `https://www.linkedin.com/jobs/view/${jobId}`;
+        // Method 1: Extract job ID from URL parameter (most reliable)
+        const urlParams = new URLSearchParams(window.location.search);
+        jobId = urlParams.get("currentJobId");
+
+        // Method 2: Extract from selected job card in the list
+        if (!jobId) {
+          const selectedJobCard =
+            document.querySelector(".jobs-search-results__list-item--active") ||
+            document.querySelector(
+              '.job-card-container--clickable[aria-current="true"]'
+            ) ||
+            document.querySelector('li.jobs-search-results__list-item[data-occludable-job-id]') ||
+            document.querySelector('[data-job-id].selected');
+
+          if (selectedJobCard) {
+            jobId =
+              selectedJobCard.getAttribute("data-job-id") ||
+              selectedJobCard.getAttribute("data-occludable-job-id") ||
+              selectedJobCard
+                .querySelector("[data-job-id]")
+                ?.getAttribute("data-job-id");
           }
         }
 
-        // Fallback: try to get from the "View job" link or current URL
-        if (!postingLink) {
-          const viewJobLink = document.querySelector('a[href*="/jobs/view/"]');
-          if (viewJobLink) {
-            postingLink = viewJobLink.href;
-          } else {
-            postingLink = window.location.href;
+        // Method 3: Extract from the detail panel's data attributes
+        if (!jobId) {
+          const detailPanel = document.querySelector(
+            '[data-job-id].jobs-details, [data-job-id].job-details'
+          );
+          if (detailPanel) {
+            jobId = detailPanel.getAttribute("data-job-id");
           }
+        }
+
+        // Construct the posting link if we found a job ID
+        if (jobId) {
+          postingLink = `https://www.linkedin.com/jobs/view/${jobId}`;
+        } else {
+          // Last resort: use current URL
+          postingLink = window.location.href;
         }
       } else {
         // Individual job page - use original selectors
