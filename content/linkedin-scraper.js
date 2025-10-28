@@ -130,7 +130,10 @@
 
         // Method 1: Extract job ID from URL parameter (most reliable)
         const urlParams = new URLSearchParams(window.location.search);
-        jobId = urlParams.get("currentJobId");
+        const urlJobId = urlParams.get("currentJobId");
+        if (urlJobId && /^\d+$/.test(urlJobId)) {
+          jobId = urlJobId;
+        }
 
         // Method 2: Extract from selected job card in the list
         if (!jobId) {
@@ -139,16 +142,19 @@
             document.querySelector(
               '.job-card-container--clickable[aria-current="true"]'
             ) ||
-            document.querySelector('li.jobs-search-results__list-item[data-occludable-job-id]') ||
             document.querySelector('[data-job-id].selected');
 
           if (selectedJobCard) {
-            jobId =
+            const cardJobId =
               selectedJobCard.getAttribute("data-job-id") ||
               selectedJobCard.getAttribute("data-occludable-job-id") ||
               selectedJobCard
                 .querySelector("[data-job-id]")
                 ?.getAttribute("data-job-id");
+            
+            if (cardJobId && /^\d+$/.test(cardJobId)) {
+              jobId = cardJobId;
+            }
           }
         }
 
@@ -158,11 +164,14 @@
             '[data-job-id].jobs-details, [data-job-id].job-details'
           );
           if (detailPanel) {
-            jobId = detailPanel.getAttribute("data-job-id");
+            const panelJobId = detailPanel.getAttribute("data-job-id");
+            if (panelJobId && /^\d+$/.test(panelJobId)) {
+              jobId = panelJobId;
+            }
           }
         }
 
-        // Construct the posting link if we found a job ID
+        // Construct the posting link if we found a valid job ID
         if (jobId) {
           postingLink = `https://www.linkedin.com/jobs/view/${jobId}`;
         } else {
