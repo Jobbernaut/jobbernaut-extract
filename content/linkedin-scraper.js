@@ -23,6 +23,59 @@
   const { setupEventListeners } = window.JobbernautUtils;
 
   /**
+   * Extracts job ID from search results page
+   * Tries multiple methods in order of reliability
+   * @returns {string|null} Job ID or null if not found
+   */
+  function extractJobIdFromSearchPage() {
+    // Method 1: Extract from URL parameter (most reliable)
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlJobId = urlParams.get("currentJobId");
+    if (urlJobId && /^\d+$/.test(urlJobId)) {
+      return urlJobId;
+    }
+
+    // Method 2: Extract from selected job card
+    const selectedCardSelectors = [
+      ".jobs-search-results__list-item--active",
+      '.job-card-container--clickable[aria-current="true"]',
+      '[data-job-id].selected'
+    ];
+
+    for (const selector of selectedCardSelectors) {
+      const card = document.querySelector(selector);
+      if (card) {
+        const jobId =
+          card.getAttribute("data-job-id") ||
+          card.getAttribute("data-occludable-job-id") ||
+          card.querySelector("[data-job-id]")?.getAttribute("data-job-id");
+        
+        if (jobId && /^\d+$/.test(jobId)) {
+          return jobId;
+        }
+      }
+    }
+
+    // Method 3: Extract from detail panel
+    const detailPanelSelectors = [
+      '[data-job-id].jobs-details',
+      '[data-job-id].job-details'
+    ];
+
+    for (const selector of detailPanelSelectors) {
+      const panel = document.querySelector(selector);
+      if (panel) {
+        const jobId = panel.getAttribute("data-job-id");
+        if (jobId && /^\d+$/.test(jobId)) {
+          return jobId;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /**
    * Extracts external apply link if available (not Easy Apply)
    * @returns {string|null} External apply URL or null if not found
    */
@@ -125,57 +178,12 @@
           jobDescription = descriptionElement.innerText?.trim() || "";
         }
 
-        // Get posting link - try multiple methods in order of reliability
-        let jobId = null;
-
-        // Method 1: Extract job ID from URL parameter (most reliable)
-        const urlParams = new URLSearchParams(window.location.search);
-        const urlJobId = urlParams.get("currentJobId");
-        if (urlJobId && /^\d+$/.test(urlJobId)) {
-          jobId = urlJobId;
-        }
-
-        // Method 2: Extract from selected job card in the list
-        if (!jobId) {
-          const selectedJobCard =
-            document.querySelector(".jobs-search-results__list-item--active") ||
-            document.querySelector(
-              '.job-card-container--clickable[aria-current="true"]'
-            ) ||
-            document.querySelector('[data-job-id].selected');
-
-          if (selectedJobCard) {
-            const cardJobId =
-              selectedJobCard.getAttribute("data-job-id") ||
-              selectedJobCard.getAttribute("data-occludable-job-id") ||
-              selectedJobCard
-                .querySelector("[data-job-id]")
-                ?.getAttribute("data-job-id");
-            
-            if (cardJobId && /^\d+$/.test(cardJobId)) {
-              jobId = cardJobId;
-            }
-          }
-        }
-
-        // Method 3: Extract from the detail panel's data attributes
-        if (!jobId) {
-          const detailPanel = document.querySelector(
-            '[data-job-id].jobs-details, [data-job-id].job-details'
-          );
-          if (detailPanel) {
-            const panelJobId = detailPanel.getAttribute("data-job-id");
-            if (panelJobId && /^\d+$/.test(panelJobId)) {
-              jobId = panelJobId;
-            }
-          }
-        }
-
-        // Construct the posting link if we found a valid job ID
+        // Get posting link - extract job ID from the selected job card
+        const jobId = extractJobIdFromSearchPage();
         if (jobId) {
           postingLink = `https://www.linkedin.com/jobs/view/${jobId}`;
         } else {
-          // Last resort: use current URL
+          // Fallback: use current URL
           postingLink = window.location.href;
         }
       } else {
