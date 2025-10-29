@@ -30,21 +30,11 @@ Jobbernaut Extract is a Chrome extension built using Manifest V3 that extracts j
 ┌─────────────────────────────────────────────────────────────┐
 │                        User Interface                        │
 ├─────────────────────────────────────────────────────────────┤
-│  Extension Icon  │  Keyboard Shortcut  │  Settings Page     │
-│  (Click Action)  │  (Ctrl+Shift+E)     │  (Options Page)    │
-└────────┬─────────┴──────────┬──────────┴──────────┬─────────┘
-         │                    │                      │
-         ▼                    ▼                      ▼
-┌─────────────────────────────────────────────────────────────┐
-│                     Background Script                        │
-│                    (Service Worker)                          │
-│  • Handles icon clicks                                       │
-│  • Routes messages to content scripts                        │
-│  • Manages context menus                                     │
-└────────┬────────────────────────────────────────────────────┘
-         │
-         │ Message Passing
-         ▼
+│  Keyboard Shortcut  │                 Settings Page          │
+│  (Ctrl+Shift+E)     │                 (Options Page)         │
+└──────────┬──────────┴──────────────────────────┬─────────────┘
+           │                                     │
+           ▼                                     ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                    Content Scripts                           │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
@@ -72,15 +62,15 @@ Jobbernaut Extract is a Chrome extension built using Manifest V3 that extracts j
 ### 1. User Initiates Extraction
 
 ```
-User Action (Icon Click or Keyboard Shortcut)
+User Action (Keyboard Shortcut: Ctrl+Shift+E)
     ↓
-Background Script Receives Event
+Content Script Receives Event
     ↓
-Checks Current Tab URL
+Scrapes Job Data from Page
     ↓
-Determines Which Job Board
+Formats Data Using Template
     ↓
-Sends Message to Appropriate Content Script
+Copies to Clipboard
 ```
 
 ### 2. Content Script Processes Request
@@ -141,9 +131,7 @@ jobbernaut-extract/
 │   └── Sets extension metadata
 │
 ├── background.js              # Service worker
-│   ├── Handles extension icon clicks
-│   ├── Routes messages to content scripts
-│   ├── Creates context menus
+│   ├── Handles clipboard operations
 │   └── Manages extension lifecycle
 │
 ├── content/                   # Content scripts (injected into pages)
@@ -207,16 +195,15 @@ jobbernaut-extract/
 
 ### 2. Background Script (background.js)
 
-**Purpose:** Handles extension-level events and routing
+**Purpose:** Handles clipboard operations and extension lifecycle
 
 **Key Functions:**
-- `chrome.action.onClicked` - Handles icon clicks
-- `chrome.contextMenus` - Creates right-click menu
-- `chrome.tabs.sendMessage` - Sends messages to content scripts
+- `chrome.runtime.onMessage` - Handles messages from content scripts
+- Message handling for clipboard operations
 
 **Message Flow:**
 ```javascript
-Icon Click → Check URL → Send Message to Content Script
+Content Script → Clipboard Operation via Background Script
 ```
 
 ### 3. Content Scripts (content/linkedin-scraper.js)
@@ -295,9 +282,7 @@ Content Script Injected Automatically
     ↓
 Script Waits for User Action
     ↓
-User Clicks Icon or Presses Shortcut
-    ↓
-Background Script Routes Message
+User Presses Keyboard Shortcut (Ctrl+Shift+E)
     ↓
 Content Script Extracts Data
     ↓

@@ -6,20 +6,19 @@ A Chrome extension that extracts job application data from LinkedIn, Indeed, YCo
 
 1. **Install the extension** (see [Installation](#installation))
 2. **Navigate to a LinkedIn, Indeed, YCombinator, Wellfound, Glassdoor, or Monster job posting**
-3. **Click the extension icon** or press **Ctrl+Shift+E**
+3. **Press Ctrl+Shift+E** (Windows/Linux) or **Cmd+Shift+E** (Mac)
 4. **Paste** the extracted data into your `applications.yaml` file
 
 That's it! The job data is now in your clipboard, ready to track.
 
 ## ✨ Features
 
-- **One-Click Extraction** - Click the extension icon or use keyboard shortcut (Ctrl+Shift+E)
+- **Keyboard Shortcut** - Fast extraction with Ctrl+Shift+E (Cmd+Shift+E on Mac)
 - **Customizable Templates** - Configure your own YAML output format
 - **Auto-Generated Job IDs** - Unique 10-character alphanumeric IDs
 - **Complete Job Descriptions** - Full job description text with proper YAML formatting
 - **Clipboard Copy** - Automatically copies formatted data to clipboard
 - **Visual Feedback** - Chrome notifications confirm successful extraction
-- **Keyboard Shortcut** - Fast extraction with Ctrl+Shift+E (Cmd+Shift+E on Mac)
 
 ## ⚠️ Usage & Disclaimer
 
@@ -62,16 +61,9 @@ That's it! The job data is now in your clipboard, ready to track.
 
 ### Extracting Job Data
 
-The extension works on both LinkedIn job search results pages and individual job posting pages. You have **two ways** to extract job data:
+The extension works on both LinkedIn job search results pages and individual job posting pages.
 
-**Method 1: Extension Icon (Click)**
-1. Navigate to a LinkedIn job page (search results or individual posting)
-2. Click the Jobbernaut Extract extension icon in your Chrome toolbar
-3. The job data will be extracted and copied to your clipboard
-4. You'll see a notification: "✓ Copied to clipboard!"
-5. Paste the data into your `applications.yaml` file
-
-**Method 2: Keyboard Shortcut (Faster!)**
+**Keyboard Shortcut:**
 1. Navigate to a LinkedIn job page (search results or individual posting)
 2. Press **Ctrl+Shift+E** (Windows/Linux) or **Cmd+Shift+E** (Mac)
 3. The job data will be instantly extracted and copied to your clipboard
@@ -85,9 +77,11 @@ The extension works on both LinkedIn job search results pages and individual job
 
 ### Accessing Settings
 
-1. Right-click the extension icon in your Chrome toolbar
-2. Select "Settings" from the context menu
-3. The settings page will open in a new tab
+1. Navigate to `chrome://extensions/`
+2. Find "Jobbernaut Extract" in the list
+3. Click "Details"
+4. Click "Extension options"
+5. The settings page will open in a new tab
 
 ### Configuring the Template
 
@@ -153,7 +147,7 @@ When you extract a job posting, the output will look like this:
 ## How It Works
 
 1. **Content Script**: When you visit a LinkedIn job page, the extension injects a content script that can read the page content
-2. **Data Extraction**: When you click the extension icon, it extracts:
+2. **Data Extraction**: When you press Ctrl+Shift+E, it extracts:
    - Job title
    - Company name
    - Location
@@ -231,11 +225,9 @@ Each job board has a lightweight scraper that focuses only on extracting data:
 ### Data Flow
 
 ```
-Extension Icon Click / Keyboard Shortcut
+Keyboard Shortcut (Ctrl+Shift+E)
     ↓
-Background Script (routes to appropriate scraper)
-    ↓
-Site-Specific Scraper (extracts job data from page)
+Content Script (extracts job data from page)
     ↓
 Shared Utilities (formats data using template)
     ↓
@@ -261,10 +253,6 @@ The extension requires the following permissions:
 
 ## Troubleshooting
 
-### Extension icon doesn't work
-- Make sure you're on a LinkedIn job posting page (URL should contain `linkedin.com/jobs`)
-- Try refreshing the page and clicking the icon again
-
 ### No data is extracted
 - Ensure you're on a valid LinkedIn job posting page
 - LinkedIn may have changed their page structure - the extension may need updates
@@ -275,7 +263,7 @@ The extension requires the following permissions:
 
 ### Clipboard copy not working
 - Make sure you've granted clipboard permissions to the extension
-- Try clicking the extension icon again
+- Try pressing Ctrl+Shift+E again
 
 ## 📚 Documentation
 
@@ -338,9 +326,7 @@ The extension allows you to fully customize the YAML output format. See the [Tem
 The extension uses a modular architecture:
 
 ```
-Extension Icon Click
-    ↓
-Background Script (routes to appropriate scraper)
+Keyboard Shortcut
     ↓
 Content Script (extracts job data from page)
     ↓
