@@ -272,19 +272,6 @@
    * @param {string} siteName - Name of the job site
    */
   function setupEventListeners(scraperFunction, siteName) {
-    // Listen for extension icon clicks
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      console.log(
-        `[Jobbernaut] ${siteName} scraper received message:`,
-        request
-      );
-      if (request.action === "extractJob") {
-        extractAndCopyJobData(scraperFunction, siteName);
-        sendResponse({ success: true });
-      }
-      return true;
-    });
-
     // Listen for keyboard shortcut (Ctrl+Shift+E or Cmd+Shift+E)
     document.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "E") {
