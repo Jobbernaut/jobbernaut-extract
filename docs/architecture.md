@@ -276,7 +276,7 @@ Extension ready
 ### Normal Operation
 
 ```
-User Navigates to Job Page
+User Navigates to LinkedIn Job Page
     ↓
 Content Script Injected Automatically
     ↓

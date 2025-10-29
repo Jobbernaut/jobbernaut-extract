@@ -64,13 +64,14 @@ That's it! The job data is now in your clipboard, ready to track.
 The extension works on both LinkedIn job search results pages and individual job posting pages.
 
 **Keyboard Shortcut:**
-1. Navigate to a job page (search results or individual posting)
+1. Navigate to a LinkedIn job page (search results or individual posting)
 2. Press **Ctrl+Shift+E** (Windows/Linux) or **Cmd+Shift+E** (Mac)
 3. The job data will be instantly extracted and copied to your clipboard
 4. You'll see a notification: "✓ Copied to clipboard!"
 5. Paste the data into your `applications.yaml` file
 
 **Tips:**
+- The keyboard shortcut is faster for extracting multiple jobs quickly
 - Works on both search results pages and individual job postings
 - On search results pages, click a job in the left sidebar first to load its details
 
@@ -145,7 +146,7 @@ When you extract a job posting, the output will look like this:
 
 ## How It Works
 
-1. **Content Script**: When you visit a job page, the extension injects a content script that can read the page content
+1. **Content Script**: When you visit a LinkedIn job page, the extension injects a content script that can read the page content
 2. **Data Extraction**: When you press Ctrl+Shift+E, it extracts:
    - Job title
    - Company name
@@ -253,11 +254,11 @@ The extension requires the following permissions:
 ## Troubleshooting
 
 ### No data is extracted
-- Ensure you're on a valid job posting page
-- The job board may have changed their page structure - the extension may need updates
+- Ensure you're on a valid LinkedIn job posting page
+- LinkedIn may have changed their page structure - the extension may need updates
 
 ### Template not saving
-- Make sure you have a valid template with at least one field
+- Check that you have a valid template with at least one field
 - Try resetting to default and customizing from there
 
 ### Clipboard copy not working
