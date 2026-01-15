@@ -9,6 +9,20 @@
   console.log("[Jobbernaut] Background service worker initialized");
 
   /**
+   * Handles keyboard command for job extraction
+   */
+  chrome.commands.onCommand.addListener((command) => {
+    if (command === "extract-job") {
+      // Send message to the active tab's content script
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]) {
+          chrome.tabs.sendMessage(tabs[0].id, { action: "extractJob" });
+        }
+      });
+    }
+  });
+
+  /**
    * Handles messages from content scripts
    * @param {Object} request - Message request object
    * @param {Object} sender - Message sender information

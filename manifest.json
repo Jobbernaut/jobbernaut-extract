@@ -4,6 +4,15 @@
   "version": "1.0.0",
   "description": "Extract job application data and copy to clipboard in YAML format",
   "permissions": ["activeTab", "storage", "notifications", "contextMenus"],
+  "commands": {
+    "extract-job": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "Command+Shift+E"
+      },
+      "description": "Extract job data and copy to clipboard"
+    }
+  },
   "host_permissions": [
     "https://www.linkedin.com/*",
     "https://www.indeed.com/*",

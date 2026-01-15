@@ -272,7 +272,15 @@
    * @param {string} siteName - Name of the job site
    */
   function setupEventListeners(scraperFunction, siteName) {
-    // Listen for keyboard shortcut (Ctrl+Shift+E or Cmd+Shift+E)
+    // Listen for messages from background script (triggered by keyboard command)
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if (request.action === "extractJob") {
+        extractAndCopyJobData(scraperFunction, siteName);
+        sendResponse({ success: true });
+      }
+    });
+
+    // Also keep the keyboard listener as a fallback for development/testing
     document.addEventListener("keydown", (e) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "E") {
         e.preventDefault();
