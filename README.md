@@ -183,10 +183,6 @@ jobbernaut-extract/
 │   ├── icon16.png          # 16x16 icon
 │   ├── icon48.png          # 48x48 icon
 │   └── icon128.png         # 128x128 icon
-├── docs/
-│   ├── architecture.md     # Technical architecture guide
-│   └── template-customization.md # Template customization guide
-├── EXTENDING.md            # Guide for adding new job boards
 └── README.md               # This file
 ```
 
@@ -236,8 +232,6 @@ Clipboard (copies YAML output)
 Notification (confirms success)
 ```
 
-For detailed architecture information, see [docs/architecture.md](docs/architecture.md).
-
 ## File Structure
 
 ## Permissions
@@ -265,29 +259,9 @@ The extension requires the following permissions:
 - Make sure you've granted clipboard permissions to the extension
 - Try pressing Ctrl+Shift+E again
 
-## 📚 Documentation
-
-Comprehensive documentation is available in the `docs/` directory:
-
-- **[Architecture Guide](docs/architecture.md)** - Detailed technical architecture and component overview
-- **[Extending Guide](EXTENDING.md)** - How to add support for other job boards (Indeed, Glassdoor, etc.)
-- **[Template Customization](docs/template-customization.md)** - Complete guide to customizing YAML output templates
-
-### Quick Links
-
-- [How to add a new job board](EXTENDING.md#step-by-step-guide)
-- [Template examples](docs/template-customization.md#examples)
-- [Architecture overview](docs/architecture.md#component-architecture)
-- [Security considerations](docs/architecture.md#security-considerations)
-
 ## 🔧 Extending to Other Job Boards
 
-The extension is designed to be easily extended to support additional job boards beyond LinkedIn. See the [EXTENDING.md](EXTENDING.md) guide for:
-
-- Step-by-step instructions for adding new job boards
-- How to find the right CSS selectors
-- Example scraper implementations
-- Testing and debugging tips
+The extension is designed to be easily extended to support additional job boards beyond LinkedIn.
 
 **Supported Job Boards:**
 - ✅ LinkedIn (built-in)
@@ -296,16 +270,11 @@ The extension is designed to be easily extended to support additional job boards
 - ✅ Wellfound (built-in)
 - ✅ Glassdoor (built-in)
 - ✅ Monster (built-in)
-- 📝 Any other job board (see guide to add)
+- 📝 Any other job board
 
 ## 🎨 Customizing Templates
 
-The extension allows you to fully customize the YAML output format. See the [Template Customization Guide](docs/template-customization.md) for:
-
-- Available template variables
-- Example templates for different workflows
-- Best practices for YAML formatting
-- Troubleshooting common issues
+The extension allows you to fully customize the YAML output format.
 
 **Example Custom Template:**
 ```yaml
@@ -334,18 +303,6 @@ Template Engine (formats data)
     ↓
 Clipboard (copies YAML output)
 ```
-
-For detailed architecture information, see [docs/architecture.md](docs/architecture.md).
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. **Add support for new job boards** - Follow the [EXTENDING.md](EXTENDING.md) guide
-2. **Improve existing scrapers** - LinkedIn's HTML changes frequently
-3. **Enhance documentation** - Help others understand and use the extension
-4. **Report bugs** - Open an issue with details about the problem
-5. **Suggest features** - Share ideas for improvements
 
 ### Development Setup
 
@@ -384,8 +341,6 @@ Contributions are welcome! Here's how you can help:
 - Ensure your template includes at least one variable
 - Check browser console (F12) for errors
 - Try resetting to default template
-
-For more troubleshooting help, see the [documentation](docs/).
 
 ## 📄 License
 
